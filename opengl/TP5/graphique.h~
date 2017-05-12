@@ -8,4 +8,5 @@
 void extrude(point3D t, point3D contour[], int nbsom); 
 
 void dessiner(void);
+void retailler(GLsizei largeur, GLsizei hauteur);
 

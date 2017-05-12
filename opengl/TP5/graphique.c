@@ -1,42 +1,58 @@
 #include "graphique.h"
 #include <malloc.h>
 
-void extrude(point3D t, point3D contour[], int nbsom)
+void extrude(point3D t[], int nbt, point3D contour[], int nbsom, int faceAvant, int faceArriere)
 {
-  glColor3f(1, 0, 0);
-  glBegin(GL_POLYGON);
-  for(int i = 0; i < nbsom; i++)
+  for(int j = 0; j < nbt; j++)
     {
-      glVertex3f(contour[i].x, contour[i].y, contour[i].z);
-    }
-    glEnd();
-
-  glColor3f(0, 1, 0);
-  glBegin(GL_POLYGON);
-  for(int i = 0; i < nbsom; i++)
-    {
-      glVertex3f(contour[i].x+t.x, contour[i].y+t.y, contour[i].z+t.z);
-    }
-  glEnd();
-
-  glColor3f(0, 0, 1);
-  glBegin(GL_QUADS);
-  for(int i = 0; i < nbsom; i++)
-    {
-      glVertex3f(contour[i].x, contour[i].y, contour[i].z);
-      glVertex3f(contour[i].x+t.x, contour[i].y+t.y, contour[i].z+t.z);
-      if(i < nbsom-1)
+      if(faceAvant != 0)
 	{
-	  glVertex3f(contour[i+1].x+t.x, contour[i+1].y+t.y, contour[i+1].z+t.z);
-	  glVertex3f(contour[i+1].x, contour[i+1].y, contour[i+1].z);
+	  glColor3f(1, 0, 0);
+	  glBegin(GL_POLYGON);
+	  for(int i = 0; i < nbsom; i++)
+	    {
+	      glVertex3f(contour[i].x, contour[i].y, contour[i].z);
+	    }
+	  glEnd();
 	}
-      else
+
+      if(faceArriere != 0)
 	{
-	  glVertex3f(contour[0].x+t.x, contour[0].y+t.y, contour[0].z+t.z);
-	  glVertex3f(contour[0].x, contour[0].y, contour[0].z);
+	  glColor3f(0, 1, 0);
+	  glBegin(GL_POLYGON);
+	  for(int i = 0; i < nbsom; i++)
+	    {
+	      glVertex3f(contour[i].x+t[j].x, contour[i].y+t[j].y, contour[i].z+t[j].z);
+	    }
+	  glEnd();
 	}
-    }
+
+      glColor3f(0, 0, 1);
+      glBegin(GL_QUADS);
+      for(int i = 0; i < nbsom; i++)
+	{
+	  glVertex3f(contour[i].x, contour[i].y, contour[i].z);
+	  glVertex3f(contour[i].x+t[j].x, contour[i].y+t[j].y, contour[i].z+t[j].z);
+	  if(i < nbsom-1)
+	    {
+	      glVertex3f(contour[i+1].x+t[j].x, contour[i+1].y+t[j].y, contour[i+1].z+t[j].z);
+	      glVertex3f(contour[i+1].x, contour[i+1].y, contour[i+1].z);
+	    }
+	  else
+	    {
+	      glVertex3f(contour[0].x+t[j].x, contour[0].y+t[j].y, contour[0].z+t[j].z);
+	      glVertex3f(contour[0].x, contour[0].y, contour[0].z);
+	    }
+	}
+    
   glEnd();
+  for(int i = 0; i < nbsom; i++)
+    {
+      contour[i].x += t[j].x;
+      contour[i].y += t[j].y;
+      contour[i].z += t[j].z;
+    }
+}
 }
 
 static void repere(float dim)
@@ -58,7 +74,7 @@ static void repere(float dim)
 void dessiner(void)
 {
   /* effacer l'ecran */
-  glClearColor(1.0, 1.0, 1.0, 1.0);
+  glClearColor(0, 0, 0, 1.0);
 
   /* raz de la fenetre avec la couleur de fond */
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -72,10 +88,10 @@ void dessiner(void)
   //  tri = (point3D*)malloc(3*sizeof(point3D));
   
   point3D tri[] = {{-0.5,0,0},{0.5,0,0},{0.25,0.5,0}};
-  point3D trans = {0.5,0.5,1};
+  point3D trans[] = {{0.2,0.2,0.2},{-0.3,0.3,0.3}};
 
   //glRotatef(10, 1, 1, 0);
-  extrude(trans,tri,nbPoints);
+  extrude(trans,2,tri,nbPoints,1,0);
 
   //repere(2.0);
   

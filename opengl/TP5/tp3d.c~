@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
   glutInitWindowPosition(100, 100); 
   glutInitWindowSize(LARGEUR, HAUTEUR); 
 
-  glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE);
+  glutInitDisplayMode(GLUT_DEPTH);
 
   glutCreateWindow(argv[0]);
   
@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
   glClear(GL_COLOR_BUFFER_BIT);
 
   glutDisplayFunc(dessiner);
+  glutReshapeFunc(retailler);
 
   init_screen();
   
