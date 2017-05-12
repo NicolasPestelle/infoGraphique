@@ -1,0 +1,22 @@
+#include "clavier.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <glut.h>
+#include <math.h>
+#include "globals.h"
+
+void gestionClavier(unsigned char touche, int x, int y)
+{
+  switch(touche)
+    {
+    case '+':
+      pointSize += 1.0;
+      break;
+
+    case '-':
+      if(pointSize > 1.0)
+	pointSize -= 1.0;
+      break;
+    }
+  glutPostRedisplay();
+}

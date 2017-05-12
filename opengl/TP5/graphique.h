@@ -1,0 +1,12 @@
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <glut.h>
+#include <math.h>
+
+#include "point3d.h"
+
+void extrude(point3D t, point3D contour[], int nbsom); 
+
+void dessiner(void);
+void retailler(GLsizei largeur, GLsizei hauteur);
+
